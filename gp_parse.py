@@ -31,4 +31,6 @@ with open(sourcefile, 'rb') as csvfile:
                 # total += float(row[15])
         linenum += 1;
     # print header
-    print totals
+    for currency in totals:
+        print currency, totals[currency]
+    # print totals
