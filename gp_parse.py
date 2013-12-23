@@ -14,24 +14,25 @@ print "Reading from", sourcefile, "..."
 with open(sourcefile, 'rb') as csvfile:
     gp_reader = csv.reader(csvfile)
     linenum = 0
-    totals = {}
+    products = {}
     header = ""
 
     for row in gp_reader:
         if linenum == 0:
             header = row
-        elif row[7] == "com.limbic.ac130":
-            # parse report, put into totals dict by currency
-            if row[17] in totals:
-                totals[row[17]] = float(totals[row[17]])+float(row[18])
+        elif row[7] in products:
+            if row[17] in products[row[7]]:
+                product = products[row[7]]
+                product[row[17]] = float(product[row[17]]) + float(row[18])
             else:
-                totals[row[17]] = float(row[18])
+                product = products[row[7]]
+                product[row[17]] = float(row[18])
         else:
-            print "Unknown Product",row[7]
-            # todo(AK): store each new product in a dict
+            products[row[7]] = {row[17]:row[18]}
         linenum += 1;
-    for currency in totals:
-        print currency, totals[currency]
+    for product in products:
+        for currency in products[product]:
+            print product, currency, products[product][currency]
         
     # code used to print header-row information for CSV
     # index = 0
