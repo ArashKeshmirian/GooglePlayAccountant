@@ -16,21 +16,27 @@ with open(sourcefile, 'rb') as csvfile:
     linenum = 0
     totals = {}
     header = ""
-    
+
     for row in gp_reader:
         if linenum == 0:
             header = row
         if row[7] == "com.limbic.ac130":
-            if row[14] in totals:
-                totals[row[14]] = float(totals[row[14]])+float(row[15])
+            # parse report, put into totals dict by currency
+            if row[17] in totals:
+                totals[row[17]] = float(totals[row[17]])+float(row[18])
             else:
-                totals[row[14]] = float(row[15])
-            # if row[14] in totals:
-            #     totals[]
-            # if row[14]=="USD":
-                # total += float(row[15])
+                totals[row[17]] = float(row[18])
+        else:
+            print "Unknown Product",row[7]
+            # todo(AK): store each new product in a dict
         linenum += 1;
-    # print header
     for currency in totals:
         print currency, totals[currency]
-    # print totals
+        
+    # code used to print header-row information for CSV
+    # index = 0
+    # print "\n"
+    # for column in header:
+    #     print index, column
+    #     index += 1
+    
