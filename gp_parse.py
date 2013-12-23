@@ -20,7 +20,7 @@ with open(sourcefile, 'rb') as csvfile:
     for row in gp_reader:
         if linenum == 0:
             header = row
-        if row[7] == "com.limbic.ac130":
+        elif row[7] == "com.limbic.ac130":
             # parse report, put into totals dict by currency
             if row[17] in totals:
                 totals[row[17]] = float(totals[row[17]])+float(row[18])
